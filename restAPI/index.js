@@ -40,10 +40,14 @@ app.put('/todos/:id', (req,res) => {
             id: todoId,
             ...newTodo,
         }
-    }
-    res.json({
-        message: "Todo Updated Successfully!",
-    });
+        res.json({
+            message: "Todo Updated Successfully!",
+        });
+    } else {
+        res.status(400).json({
+            message: "Todo Id Not Found!",
+        });
+}
 })
 
 // PATCH
