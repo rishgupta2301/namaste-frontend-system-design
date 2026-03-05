@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short Polling Example</title>
+</head>
+<body>
+
+    <h1>Short Polling Example</h1>
+    <div id="data-container"></div>
+
+</body>
+
+<script>
+
+    async function getData() {
+        try {
+            const response = await fetch('/getData');
+            const result = await response.json();
+            document.getElementById('data-container').innerHTML = result.data;
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    // Polling every 5 seconds
+    let intervalId;
+    function shortPolling() {
+        intervalId = setInterval(() => {
+            getData();
+        }, 5000);
+
+    }
+
+    // Start short polling when the page loads
+    shortPolling();
+
+    // Clear the interval when the page is closed or refreshed or when the user navigates away
+    clearInterval(intervalId);
+
+    // clearInterval is very important to prevent memory leaks and unnecessary network requests when the user navigates away from the page or closes it. It ensures that the polling stops when it's no longer needed, which can help improve performance and reduce server load.
+
+</script>
+</html>
+
+<!-- This code demonstrates a simple implementation of short polling. The `getData` function fetches data from the server every 5 seconds and updates the content of the `data-container` div with the received data. The polling starts when the page loads, and it continues until the page is closed or refreshed.
+the data will updated as soon as the updateData api gets called and the data will be sent to the getData api and the getData api will return the updated data to the client. -->
